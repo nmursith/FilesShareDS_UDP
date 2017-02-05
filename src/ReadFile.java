@@ -74,4 +74,23 @@ public class ReadFile {
         }
         return null;
     }
+
+    public static  String getBootStrapSever(){
+        String IP = "192.168.8.100";
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("server.txt"));
+            StringBuilder sb = new StringBuilder();
+            IP = br.readLine();
+            IP = IP.replace("\n","");
+
+            System.out.println("BootStrapSever Addres   :   "+IP);
+            return IP;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return IP;
+    }
 }

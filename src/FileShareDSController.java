@@ -41,6 +41,7 @@ public class FileShareDSController {
 
     private boolean isConnected = false;
 
+    public long start=0, middle =0, end =0;
     public void init() {
         System.out.println(System.currentTimeMillis());
         filesIhave.setItems(items);
@@ -70,6 +71,8 @@ public class FileShareDSController {
 
         System.out.println(request);
 
+        start = System.currentTimeMillis();
+
         for (Neighbour node: nodes) {
 
             final String finalRequest = request;
@@ -97,9 +100,6 @@ public class FileShareDSController {
                   e.printStackTrace();
               }
               }).start();
-
-
-
         }
 
     }
@@ -146,7 +146,7 @@ public class FileShareDSController {
     }
 
     public void connect(ActionEvent actionEvent) {
-
+        start =System.currentTimeMillis();
         if(!isConnected){
 
             nodes = serverController.connect();
@@ -169,6 +169,10 @@ public class FileShareDSController {
             }
 
         }
+
+        end =System.currentTimeMillis();
+        System.err.println("Time Elapsed to Join  "+ (end - start)+"ms");
+        start = end = 0;
 
 
         searchButton.setDisable(false);

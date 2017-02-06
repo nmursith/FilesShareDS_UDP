@@ -141,6 +141,10 @@ public class CommandReceiver extends Thread {
                         final String finalFileName = fileName;
                         Platform.runLater(() -> fileShareDSController.availableItems.add(finalFileName));
                     }
+
+                    fileShareDSController.end =System.currentTimeMillis();
+                    System.err.println("Time Elapsed to Find  "+ (fileShareDSController.end - fileShareDSController.start)+"ms  withing hops  "+ (20-Integer.parseInt(hops)));
+                    fileShareDSController.start = fileShareDSController.end = 0;
                 }
                 else if(command.equals(Constants.JOINOK)){
                     //length JOINOK value

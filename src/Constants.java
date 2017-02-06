@@ -14,14 +14,14 @@ public class Constants {
     public static final  String LEAVEOK = "LEAVEOK";
     public static final  String SEROK = "SEROK";
     public static final  String UNROK = "UNROK";
-    public static final  String IPLIKE = "192.168";
     public static final  String SER = "SER";
 
 
     public static String ERROR = "ERROR";
     public static String JOIN = "JOIN";
     public static String LEAVE = "LEAVE";
-
-    public static String BOOTSTRAP_SERVER_IP = ReadFile.getBootStrapSever();//IPLIKE + ".8.102";
+    private static  String [] temp= ReadFile.getBootStrapSever();
+    public static String BOOTSTRAP_SERVER_IP = temp[0];//IPLIKE + ".8.102";
+    public static final String IPLIKE = temp[1];
 
 }

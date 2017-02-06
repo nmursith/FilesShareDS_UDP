@@ -3,7 +3,10 @@ import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import javafx.application.Platform;
 import similarity.CosineDistance;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -132,9 +135,9 @@ public class CommandReceiver extends Thread {
                     String port = st.nextToken();
                     String hops= st.nextToken();
                     StringTokenizer files = new StringTokenizer(st.nextToken(), ",");
-//jh
+                    String fileName="";
                     while(files.hasMoreTokens()){
-                        String fileName = files.nextToken();
+                         fileName = files.nextToken();
                         if(fileName.contains("*")){
                             fileName = fileName.replace("*"," " );
                         }
@@ -143,8 +146,10 @@ public class CommandReceiver extends Thread {
                     }
 
                     fileShareDSController.end =System.currentTimeMillis();
-                    System.err.println("Time Elapsed to Find  "+ (fileShareDSController.end - fileShareDSController.start)+"ms  withing hops  "+ (20-Integer.parseInt(hops)));
+                    long elapse = fileShareDSController.end - fileShareDSController.start;
+                    System.err.println("Time Elapsed to Find  "+ (elapse)+"ms  withing hops  "+ (20-Integer.parseInt(hops)));
                     fileShareDSController.start = fileShareDSController.end = 0;
+                    record(fileName, elapse, 20-Integer.parseInt(hops));
                 }
                 else if(command.equals(Constants.JOINOK)){
                     //length JOINOK value
@@ -201,6 +206,50 @@ public class CommandReceiver extends Thread {
         return reply;
     }
 
+    public  void record(String file, long time, int hops){
+
+
+            BufferedWriter bw = null;
+            FileWriter fw = null;
+        PrintWriter out = null;
+            try {
+
+
+
+                fw = new FileWriter("data.txt",true);
+                bw = new BufferedWriter(fw);
+                out = new PrintWriter(bw);
+                out.println(file+","+time+","+hops);
+
+
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+           finally {
+
+                try {
+                    if(out != null)
+                        out.close();
+
+                    if (bw != null)
+                        bw.close();
+
+                    if (fw != null)
+                        fw.close();
+
+                } catch (IOException ex) {
+
+                    ex.printStackTrace();
+
+                }
+
+            }
+
+
+    }
     public String checkJoin(String IP, int port){
         String reply = "";
         for (int i=0; i<fileShareDSController.nodes.size(); i++) {

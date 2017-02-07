@@ -58,11 +58,12 @@ public class CommandReceiver extends Thread {
                     String IP = st.nextToken();
                     String port = st.nextToken();
                     String file= st.nextToken();
+                    String hops= st.nextToken();
                    if(file.contains("*")){
                        file = file.replace("*"," " );
                    }
 
-                    String hops= st.nextToken();
+
                     String timestamp= st.nextToken();
 
                     String com = file+timestamp;
@@ -100,6 +101,7 @@ public class CommandReceiver extends Thread {
                             String request = "SEROK "+count+" " +  fileShareDSController.getMyself().getIp() +" " + fileShareDSController.getMyself().getPort() + " " +hop +" "+ files;
                             new CommandSender(IP, Integer.parseInt(port), request).start();
                         }
+                        file = file.replace(" ","*" );/**********/
                         String request = "SER "+  IP +" " + port + " " + file + " "+ hop + " " +timestamp ;
                         fileShareDSController.search(request);
 
@@ -149,6 +151,7 @@ public class CommandReceiver extends Thread {
                     long elapse = fileShareDSController.end - fileShareDSController.start;
                     System.err.println("Time Elapsed to Find  "+ (elapse)+"ms  withing hops  "+ (20-Integer.parseInt(hops)));
                     fileShareDSController.start = fileShareDSController.end = 0;
+                    if(elapse<200000)
                     record(fileName, elapse, 20-Integer.parseInt(hops));
                 }
                 else if(command.equals(Constants.JOINOK)){

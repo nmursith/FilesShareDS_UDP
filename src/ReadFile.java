@@ -1,11 +1,7 @@
-import similarity.CosineDistance;
-import similarity.CosineSimilarity;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,11 +15,16 @@ public class ReadFile {
         new ReadFile().getFilePerNode();
     }
 
+    public ArrayList<String> getQueries(){
+        ArrayList<String > filesList = readFileList("Queries.txt");
+        return filesList;
+
+    }
     public  ArrayList<String> getFilePerNode(){
         int n = Math.abs(new Random().nextInt())%2 +3;
 
         ArrayList<String> file = new ArrayList<String>();
-        ArrayList<String > filesList = readFileList();
+        ArrayList<String > filesList = readFileList("FileNames.txt");
 //        ArrayList<String > temp = readFileList();
 //        for (int j=0; j<20; j++) {
             for (int i = 0; i < n; i++) {
@@ -47,10 +48,10 @@ public class ReadFile {
 //        System.out.println("Temp  Count : " + temp.size());
         return file;
     }
-    public ArrayList<String> readFileList(){
+    public ArrayList<String> readFileList(String fileName){
         ArrayList<String > files = new ArrayList<>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader("FileNames.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
@@ -86,7 +87,8 @@ public class ReadFile {
             IP[0] = IP[0].replace("\n","");
             IP[1] = IP[1].replace("\n","");
             br.close();
-            System.out.println("BootStrapSever Addres   :   "+IP);
+            System.out.println("BootStrapSever Addres   :   "+IP[0]);
+            System.out.println("IP like Addres   :   "+IP[1]);
             return IP;
         } catch (FileNotFoundException e) {
             e.printStackTrace();

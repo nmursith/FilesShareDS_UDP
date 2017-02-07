@@ -11,10 +11,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.*;
-import java.security.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 /**
  * Created by nifras on 1/12/17.
@@ -55,10 +53,20 @@ public class FileShareDSController {
     }
     public void search(){
 
-        String file =   searchFile.getText() ;//"\"Mission Impossible\"";
+        /*String file =   searchFile.getText() ;//"\"Mission Impossible\"";
         file = file.replace(" ", "*");
-        String request = "SER "+  myself.getIp() +" " + myself.getPort() + " "+file +" "+ hops + " " +System.currentTimeMillis() ;
+
+        String request = "SER " + myself.getIp() + " " + myself.getPort() + " " + file + " " + hops + " " + System.currentTimeMillis();
         search(request);
+        */
+        ArrayList<String > filesList = new ReadFile().readFileList("Queries.txt");
+        for(String file : filesList) {
+
+            file = file.replace(" ", "*");
+
+            String request = "SER " + myself.getIp() + " " + myself.getPort() + " " + file + " " + hops + " " + System.currentTimeMillis();
+            search(request);
+        }
     }
 
     public void search(String request){
